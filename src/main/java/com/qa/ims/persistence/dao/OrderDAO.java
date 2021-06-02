@@ -1,6 +1,5 @@
 package com.qa.ims.persistence.dao;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,7 +21,6 @@ public class OrderDAO implements Dao<Order> {
 	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
 		Long id = resultSet.getLong("id");
 		Long customerId = resultSet.getLong("customer_id");
-		BigDecimal total = resultSet.getBigDecimal("total");
 		String orderedOn = resultSet.getString("ordered_on");
 		String [] dateArr = orderedOn.split("-", 0);
 		int year = Integer.parseInt(dateArr[0]);
@@ -31,17 +28,15 @@ public class OrderDAO implements Dao<Order> {
 		int date = Integer.parseInt(dateArr[2]);
 		
 		
-		return new Order(id, customerId, total.doubleValue(), LocalDate.of(year, month, date));
+		return new Order(id, customerId, LocalDate.of(year, month, date));
 	}
 	
 	@Override
 	public Order create(Order order) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
-						.prepareStatement("INSERT INTO orders(customer_id, total, ordered_on) VALUES (?, ?, ?)");) {
+						.prepareStatement("INSERT INTO orders(customer_id) VALUES (?)");) {
 			statement.setString(1, order.getCustomerId() + "");
-			statement.setString(2, order.getTotalDouble() + "");
-			statement.setString(3, order.getOrderedOn());
 			statement.executeUpdate();
 			return readLatest();
 		} catch (Exception e) {
@@ -101,11 +96,10 @@ public class OrderDAO implements Dao<Order> {
 	public Order update(Order order) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
-						.prepareStatement("UPDATE orders SET customer_id = ?, total = ?, ordered_on = ? WHERE id = ?");) {
+						.prepareStatement("UPDATE orders SET customer_id = ?, ordered_on = ? WHERE id = ?");) {
 			statement.setLong(1, order.getCustomerId());
-			statement.setString(2, order.getTotalDouble() + "");
-			statement.setString(3, order.getOrderedOn());
-			statement.setLong(4, order.getId());
+			statement.setString(2, order.getOrderedOnString());
+			statement.setLong(3, order.getId());
 			statement.executeUpdate();
 			return read(order.getId());
 		} catch (Exception e) {

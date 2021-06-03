@@ -3,6 +3,7 @@ package com.qa.ims.controllers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -74,7 +75,7 @@ public class OrderControllerTest {
 		Order o = new Order(1L, 1L, LocalDate.of(2020, 1, 1));
 		
 		Mockito.when(utils.getLong()).thenReturn(1L);
-		Mockito.when(dao.getTotal(1L)).thenReturn(19.99);
+		Mockito.when(dao.getTotal(1L)).thenReturn(new BigDecimal("19.99"));
 		Mockito.when(dao.read(1L)).thenReturn(o);
 		
 		assertEquals("19.99", controller.getTotal() + "");
@@ -140,6 +141,23 @@ public class OrderControllerTest {
 		Mockito.verify(this.utils, Mockito.times(2)).getLong();
 		Mockito.verify(this.utils, Mockito.times(1)).getString();
 		Mockito.verify(this.dao, Mockito.times(1)).update(updated);
+	}
+	
+	@Test
+	public void deleteItemTest() {
+		Order o = new Order(13L, 3L, LocalDate.of(2021, 5, 15));
+		ArrayList<OrderedItem> orders = new ArrayList<OrderedItem> ();
+		OrderedItem oi1 = new OrderedItem(122L, "Wilson", "Volleyball", 19.99, 1);
+		OrderedItem oi2 = new OrderedItem(444L, "Spaulding", "Basketball", 14.99, 1);
+		orders.add(oi1);
+		orders.add(oi2);
+		
+		Mockito.when(this.utils.getLong()).thenReturn(13L, 122L);
+		Mockito.when(this.dao.readItems(13L)).thenReturn(orders);
+		Mockito.when(this.dao.deleteItem(122L, 13L)).thenReturn(1);
+		
+		int res = controller.deleteItem();
+		assertEquals(1, res);
 	}
 	
 	@Test

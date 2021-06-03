@@ -90,6 +90,21 @@ public class ItemTest {
 		
 		Item item5 = new Item((long) 234, item4.getCompany(), item4.getProduct(), item4.getPriceDouble() + .20);
 		assertFalse(item4.equals(item5));
+		
+		Item item6 = new Item((long) 1234, item4.getCompany(), item4.getProduct(), item4.getPriceDouble());
+		assertFalse(item6.equals(item4));
+		item6.setCompany(null);
+		assertFalse(item6.equals(item4));
+		item4.setCompany(null);
+		assertFalse(item6.equals(item4));
+		item6.setProduct(null);
+		assertFalse(item6.equals(item4));
+		item4.setProduct(null);
+		assertFalse(item6.equals(item4));
+		item6.setId(null);
+		assertFalse(item6.equals(item4));
+		item4.setId(null);
+		assertTrue(item6.equals(item4));
 	}
 
 }

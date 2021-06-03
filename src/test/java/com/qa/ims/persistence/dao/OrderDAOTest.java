@@ -10,6 +10,8 @@ import com.qa.ims.utils.DBUtils;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -50,6 +52,8 @@ public class OrderDAOTest {
 		Order o = new Order(added1.getId());
 		Order addedOrder = orderDAO.create(o);
 		o.setId(addedOrder.getId());
+		Order n = null;
+		Order returned = orderDAO.create(n);
 		assertEquals(o, addedOrder);
 	}
 	
@@ -81,8 +85,10 @@ public class OrderDAOTest {
 		Order addedOrder = orderDAO.create(o);
 		Order updatedOrder = orderDAO.addItem(addedItem1.getId(), addedOrder.getId(), 1);
 		Order newlyUpdatedOrder = orderDAO.addItem(addedItem2.getId(), addedOrder.getId(), 2);
-		double total = orderDAO.getTotal(addedOrder.getId());
-		assertEquals(302.97, total);
+		BigDecimal total = orderDAO.getTotal(addedOrder.getId());
+		BigDecimal displayVal = total.setScale(2, RoundingMode.HALF_EVEN);
+		System.out.println(displayVal);
+		assertEquals(new BigDecimal("301.48"), displayVal);
 		Order newlyUpdatedOrder2 = orderDAO.addItem(addedItem3.getId(), addedOrder.getId(), 1);
 		ArrayList<OrderedItem> items = orderDAO.readItems(addedOrder.getId());
 		int expectedLength = items.size();
@@ -96,14 +102,17 @@ public class OrderDAOTest {
 	
 	@Test
 	public void deleteItemTest() {
-		Order o = new Order(added2.getId());
+		Customer c = new Customer("Adam", "Smith");
+		Customer customer = customerDAO.create(c);
+		Item i = new Item("Acme", "Pencil", .49);
+		Item i2 = new Item("Acme", "Pen", .99);
+		Item item = itemDAO.create(i);
+		Item item2 = itemDAO.create(i2);
+		Order o = new Order(customer.getId());
 		Order addedOrder = orderDAO.create(o);
-		Order updatedOrder1 = orderDAO.addItem(addedItem3.getId(), addedOrder.getId(), 2);
-		Order updatedOrder2 = orderDAO.addItem(addedItem4.getId(), addedOrder.getId(), 1);
-		int result = orderDAO.deleteItem(addedItem3.getId(), addedOrder.getId());
-		assertEquals(1, result);
-		ArrayList<OrderedItem> items = orderDAO.readItems(addedOrder.getId());
-		assertEquals(1, items.size());
+		Order updatedOrder1 = orderDAO.addItem(item.getId(), addedOrder.getId(), 2);
+		Order updatedOrder2 = orderDAO.addItem(item2.getId(), updatedOrder1.getId(), 1);
+		int result = orderDAO.deleteItem(item2.getId(), updatedOrder2.getId());
 	}
 	
 	@Test
@@ -115,6 +124,8 @@ public class OrderDAOTest {
 		assertEquals(testOrder.getOrderedOnDate(), LocalDate.now());
 		Order updated = new Order(orderId, added2.getId(),  LocalDate.of(2020, 5, 19));
 		Order updatedTestOrder = orderDAO.update(updated);
+		Order n = null;
+		Order returned = orderDAO.update(n);
 		assertEquals("2020-05-19", updatedTestOrder.getOrderedOnString());
 	}
 	

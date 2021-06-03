@@ -1,7 +1,11 @@
 package com.qa.ims.controller;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,13 +51,14 @@ public class OrderController implements CrudController<Order> {
 		return orderedItems;
 	}
 	
-	public double getTotal() {
+	public String getTotal() {
 		LOGGER.info("Please enter the order id to view the total");
 		Long orderId = utils.getLong();
-		double total = orderDAO.getTotal(orderId);
+		BigDecimal t = orderDAO.getTotal(orderId);
+		BigDecimal displayVal = t.setScale(2, RoundingMode.HALF_EVEN);
 		LOGGER.info(orderDAO.read(orderId));
-		LOGGER.info("$" + total);
-		return total;
+		LOGGER.info("$" + displayVal);
+		return displayVal + "";
 	}
 	
 	public int deleteItem() {

@@ -96,5 +96,17 @@ public class OrderTest {
 		Boolean res1 = order5.equals(null);
 		Item i = new Item("Spaulding", "Basketball", 19.99);
 		Boolean res2 = order5.equals(i);
+		order.setCustomerId(null);
+		assertFalse(order.equals(order2));
+		order2.setCustomerId(null);
+		assertFalse(order.equals(order2));
+		order.setId(null);
+		assertFalse(order.equals(order2));
+		order2.setId(null);
+		assertFalse(order.equals(order2));
+		Order o1 = new Order(9L, 9L);
+		Order o2 = new Order(9L, 9L);
+		o1.setId(null);
+		assertFalse(o1.equals(o2));
 	}
 }

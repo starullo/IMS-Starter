@@ -1,5 +1,7 @@
 package com.qa.ims.persistence.dao;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -89,25 +91,28 @@ public class OrderDAO implements Dao<Order> {
 		return 0;
 	}
 	
-	public double getTotal(Long orderId) {
+	public BigDecimal getTotal(Long orderId) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement("SELECT ordered_items.id, items.company, items.product, items.price, ordered_items.quantity FROM ordered_items JOIN items ON items.id = ordered_items.item_id WHERE order_id = ?");) {
 			statement.setLong(1, orderId);
 			ResultSet resultSet = statement.executeQuery();
 			ArrayList<OrderedItem> items = new ArrayList<OrderedItem>();
-			double total = 0.0;
+			BigDecimal total = new BigDecimal(0.0);
+			BigDecimal displayVal = total.setScale(2, RoundingMode.HALF_EVEN);
 			while (resultSet.next()) {
 				items.add(modelOIFromResultSet(resultSet));
 			}
 			for (OrderedItem oi : items) {
-				total += (oi.getPrice() * oi.getQuantity());
+				BigDecimal bd = new BigDecimal(oi.getPrice());
+				BigDecimal displayVal2 = bd.setScale(2, RoundingMode.HALF_EVEN);
+				total = total.add(bd);
 			}
 			return total;
 		} catch (SQLException e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
-		return 0.0;
+		return new BigDecimal(0.0);
 	}
 	
 	@Override

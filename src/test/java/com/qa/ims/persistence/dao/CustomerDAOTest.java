@@ -26,7 +26,7 @@ public class CustomerDAOTest {
 	}
 
 	@Test
-	public void testCreate() throws SQLException{
+	public void testCreate() {
 		final Customer CREATED = new Customer("chris", "perrins");
 		final Customer CREATED2 = DAO.create(CREATED);
 		CREATED.setId(CREATED2.getId());
@@ -34,7 +34,11 @@ public class CustomerDAOTest {
 		Customer c2 = new Customer((long) 1, "John", "Smith");
 		Customer added2 = DAO.create(c2);
 		Customer c3 = new Customer((long) 1, "John", "Smith");
+		c3.setFirstName(null);
+		c3.setSurname(null);
 		Customer added3 = DAO.create(c3);
+		Customer n = null;
+		Customer added4 = DAO.create(n);
 	}
 
 	@Test
@@ -55,7 +59,7 @@ public class CustomerDAOTest {
 	}
 
 	@Test
-	public void testRead() throws SQLException {
+	public void testRead() {
 		Customer c = new Customer("Wayne", "Campbell");
 		Customer addedCustomer = DAO.create(c);
 		c.setId(addedCustomer.getId());
@@ -75,6 +79,8 @@ public class CustomerDAOTest {
 		assertEquals("Ricky", updatedCustomerReturned.getFirstName());
 		assertEquals("Ricardo", updatedCustomerReturned.getSurname());
 		assertEquals(addedCustomer.getId(), updatedCustomerReturned.getId());
+		Customer n = null;
+		Customer returned = DAO.update(n);
 		Customer c2 = new Customer((long) -1111111, "John", "Smith");
 
 	}
@@ -86,5 +92,6 @@ public class CustomerDAOTest {
 		int result = DAO.delete(addedCustomer.getId());
 		assertEquals(1, result);
 		assertNotEquals(0, result);
+		int res = DAO.delete(-92834098324L);
 	}
 }

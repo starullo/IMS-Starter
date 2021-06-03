@@ -35,16 +35,17 @@ public class OrderDAO implements Dao<Order> {
 	}
 	
 	public OrderedItem modelOIFromResultSet(ResultSet resultSet) throws SQLException {
+		Long id = resultSet.getLong("ordered_items.id");
 		String company = resultSet.getString("items.company");
 		String product = resultSet.getString("items.product");
 		double price = resultSet.getDouble("items.price");
 		int quantity = resultSet.getInt("ordered_items.quantity");
-		return new OrderedItem(company, product, price, quantity);
+		return new OrderedItem(id, company, product, price, quantity);
 	}
 	
 	public ArrayList<OrderedItem> readItems(Long id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement("SELECT items.company, items.product, items.price, ordered_items.quantity FROM ordered_items JOIN items ON items.id = ordered_items.item_id WHERE order_id = ?");) {
+				PreparedStatement statement = connection.prepareStatement("SELECT ordered_items.id, items.company, items.product, items.price, ordered_items.quantity FROM ordered_items JOIN items ON items.id = ordered_items.item_id WHERE order_id = ?");) {
 			statement.setLong(1, id);
 			ResultSet resultSet = statement.executeQuery();
 			ArrayList<OrderedItem> items = new ArrayList<OrderedItem>();
@@ -75,10 +76,10 @@ public class OrderDAO implements Dao<Order> {
 		return null;
 	}
 	
-	public int deleteItem(Long itemId, Long orderId) {
+	public int deleteItem(Long id, Long orderId) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement("DELETE FROM ordered_items WHERE item_id = ? AND order_id = ?");) {
-			statement.setLong(1, itemId);
+				PreparedStatement statement = connection.prepareStatement("DELETE FROM ordered_items WHERE id = ? AND order_id = ?");) {
+			statement.setLong(1, id);
 			statement.setLong(2, orderId);
 			return statement.executeUpdate();
 		} catch (Exception e) {
@@ -90,7 +91,7 @@ public class OrderDAO implements Dao<Order> {
 	
 	public double getTotal(Long orderId) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement("SELECT items.company, items.product, items.price, ordered_items.quantity FROM ordered_items JOIN items ON items.id = ordered_items.item_id WHERE order_id = ?");) {
+				PreparedStatement statement = connection.prepareStatement("SELECT ordered_items.id, items.company, items.product, items.price, ordered_items.quantity FROM ordered_items JOIN items ON items.id = ordered_items.item_id WHERE order_id = ?");) {
 			statement.setLong(1, orderId);
 			ResultSet resultSet = statement.executeQuery();
 			ArrayList<OrderedItem> items = new ArrayList<OrderedItem>();

@@ -31,7 +31,7 @@ public class ItemController implements CrudController<Item> {
 		LOGGER.info("Please enter a price");
 		String price = utils.getString();
 		Item item = itemDAO.create(new Item(companyName, productName, price));
-		LOGGER.info("Customer created");
+		LOGGER.info("Item Created");
 		return item;
 	}
 	

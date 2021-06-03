@@ -47,6 +47,18 @@ public class ItemControllerTest {
 		Mockito.verify(utils, Mockito.times(3)).getString();
 		Mockito.verify(dao, Mockito.times(1)).create(created);
 	}
+	
+	@Test
+	public void readTest() {
+		Item i = new Item(12L, "Acme", "Pencil", .99);
+		
+		Mockito.when(utils.getLong()).thenReturn(12L);
+		Mockito.when(dao.read(i.getId())).thenReturn(i);
+		
+		Item returned = controller.read();
+		assertEquals(i, returned);
+		
+	}
 
 	@Test
 	public void readAllTest() {

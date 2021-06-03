@@ -26,6 +26,8 @@ public class ItemDAOTest {
 		Item item = new Item("Bic", "Ball-Point Pen", "1.29");
 		Item item2 = itemDAO.create(item);
 		item.setId(item2.getId());
+		Item n = null;
+		Item returned = itemDAO.create(n);
 		assertEquals(item, item2);
 	}
 	
@@ -61,6 +63,8 @@ public class ItemDAOTest {
 		assertEquals(testItem.getPriceString(), "$14.99");
 		Item updated = new Item(id, "Wilson", "Volleyball", "19.99");
 		Item updatedTestItem = itemDAO.update(updated);
+		Item n = null;
+		Item returned = itemDAO.update(n);
 		assertEquals(19.99, updatedTestItem.getPriceDouble());
 	}
 	
@@ -73,6 +77,7 @@ public class ItemDAOTest {
 		int deleted2 = itemDAO.delete(testItem.getId());
 		assertEquals(0, deleted2);
 		int deleted3 = itemDAO.delete((long) -100);
+		Long id = null;
 		assertEquals(0, deleted3);
 	}
 }

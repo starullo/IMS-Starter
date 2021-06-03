@@ -45,6 +45,6 @@ public class OrderedItemTest {
 	public void toStringTest() {
 		OrderedItem oi = new OrderedItem("Wilson", "Volleyball", 19.99, 5);
 		String toString = oi.toString();
-		assertEquals("company: Wilson, product: Volleyball, price: 19.99, quantity: 5", toString);
+		assertEquals("id: " + oi.getId() + ", company: Wilson, product: Volleyball, price: 19.99, quantity: 5", toString);
 	}
 }

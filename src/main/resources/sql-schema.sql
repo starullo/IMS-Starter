@@ -1,6 +1,11 @@
 
 USE ims;
 
+DROP TABLE IF EXISTS `customers`;
+DROP TABLE IF EXISTS `items`;
+DROP TABLE IF EXISTS `orders`;
+DROP TABLE IF EXISTS `ordered_items`;
+
 
 CREATE TABLE IF NOT EXISTS customers (
   id BIGINT AUTO_INCREMENT,

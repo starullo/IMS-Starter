@@ -1,3 +1,4 @@
+
 USE ims;
 
 DROP TABLE IF EXISTS `customers`;

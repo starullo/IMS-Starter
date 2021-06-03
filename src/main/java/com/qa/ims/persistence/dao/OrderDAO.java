@@ -44,8 +44,9 @@ public class OrderDAO implements Dao<Order> {
 	
 	public ArrayList<OrderedItem> readItems(Long id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
-				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT items.company, items.product, items.price, ordered_items.quantity FROM ordered_items JOIN items ON items.id = ordered_items.item_id WHERE order_id = ?");) {
+				PreparedStatement statement = connection.prepareStatement("SELECT items.company, items.product, items.price, ordered_items.quantity FROM ordered_items JOIN items ON items.id = ordered_items.item_id WHERE order_id = ?");) {
+			statement.setLong(1, id);
+			ResultSet resultSet = statement.executeQuery();
 			ArrayList<OrderedItem> items = new ArrayList<OrderedItem>();
 			while (resultSet.next()) {
 				items.add(modelOIFromResultSet(resultSet));
@@ -90,7 +91,7 @@ public class OrderDAO implements Dao<Order> {
 	public double getTotal(Long orderId) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement("SELECT items.company, items.product, items.price, ordered_items.quantity FROM ordered_items JOIN items ON items.id = ordered_items.item_id WHERE order_id = ?");) {
-			statement.setLong(1,  orderId);
+			statement.setLong(1, orderId);
 			ResultSet resultSet = statement.executeQuery();
 			ArrayList<OrderedItem> items = new ArrayList<OrderedItem>();
 			double total = 0.0;

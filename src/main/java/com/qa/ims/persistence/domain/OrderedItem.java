@@ -49,10 +49,8 @@ public class OrderedItem {
 	@Override
 	public String toString() {
 
-		return "company: " + this.getCompany() + ", product: " + this.getProduct() + ", price: " + "$" + this.getPrice() + ", quantity: " + this.getQuantity();
+		return "company: " + this.getCompany() + ", product: " + this.getProduct() + ", price: " + this.getPrice() + ", quantity: " + this.getQuantity();
 	}
-	
-	
-	
+
 	
 }

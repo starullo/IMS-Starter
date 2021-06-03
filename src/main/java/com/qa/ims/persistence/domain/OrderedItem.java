@@ -2,16 +2,33 @@ package com.qa.ims.persistence.domain;
 
 public class OrderedItem {
 	
+	private Long id;
 	private String company;
 	private String product;
 	private double price;
 	private int quantity;
+	
+	public OrderedItem(Long id, String company, String product, double price, int quantity) {
+		this.id = id;
+		this.company = company;
+		this.product = product;
+		this.price = price;
+		this.quantity = quantity;
+	}
 	
 	public OrderedItem(String company, String product, double price, int quantity) {
 		this.company = company;
 		this.product = product;
 		this.price = price;
 		this.quantity = quantity;
+	}
+	
+	public Long getId() {
+		return this.id;
+	}
+	
+	public void setId(Long newId) {
+		this.id = newId;
 	}
 
 	public String getCompany() {
@@ -49,7 +66,7 @@ public class OrderedItem {
 	@Override
 	public String toString() {
 
-		return "company: " + this.getCompany() + ", product: " + this.getProduct() + ", price: " + this.getPrice() + ", quantity: " + this.getQuantity();
+		return "id: " + this.getId() + ", company: " + this.getCompany() + ", product: " + this.getProduct() + ", price: " + this.getPrice() + ", quantity: " + this.getQuantity();
 	}
 
 	

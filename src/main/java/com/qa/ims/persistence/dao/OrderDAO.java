@@ -98,7 +98,7 @@ public class OrderDAO implements Dao<Order> {
 				items.add(modelOIFromResultSet(resultSet));
 			}
 			for (OrderedItem oi : items) {
-				total += oi.getPrice();
+				total += (oi.getPrice() * oi.getQuantity());
 			}
 			return total;
 		} catch (SQLException e) {

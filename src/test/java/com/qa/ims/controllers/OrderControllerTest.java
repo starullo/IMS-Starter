@@ -17,6 +17,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import com.qa.ims.controller.OrderController;
 import com.qa.ims.persistence.dao.OrderDAO;
 import com.qa.ims.persistence.domain.Order;
+import com.qa.ims.persistence.domain.OrderedItem;
 import com.qa.ims.utils.Utils;
 
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -38,32 +39,69 @@ public class OrderControllerTest {
 	public void createTest() {
 		OrderController controller = new OrderController(dao, utils);
 		Long customerId = 12L;
-		Double total = 49.52;
-		String orderedOn = "2021-03-22";
-		String[] dateArr = orderedOn.split("-", 0);
-		int year = Integer.parseInt(dateArr[0]);
-		int month = Integer.parseInt(dateArr[1]);
-		int day = Integer.parseInt(dateArr[2]);
-		LocalDate date = LocalDate.of(year, month, day);
 		
-		final Order o = new Order(customerId, total, date);
+		final Order o = new Order(customerId);
 		
 		Mockito.when(utils.getLong()).thenReturn(customerId);
-		Mockito.when(utils.getDouble()).thenReturn(total);
-		Mockito.when(utils.getString()).thenReturn("2021-03-22");
 		Mockito.when(dao.create(o)).thenReturn(o);
 
 		assertEquals(o, controller.create());
 
 		Mockito.verify(utils, Mockito.times(1)).getLong();
-		Mockito.verify(utils, Mockito.times(1)).getDouble();
-		Mockito.verify(utils, Mockito.times(1)).getString();
 		Mockito.verify(dao, Mockito.times(1)).create(o);
+	}
+	
+	@Test void addToOrderTest() {
+		OrderController controller = new OrderController(dao, utils);
+		Long customerId = 5L;
+		Long orderId = 12L;
+		
+		final Order o = new Order(orderId, customerId);
+		
+		Mockito.when(utils.getLong()).thenReturn(orderId, 1L);
+		Mockito.when(utils.getString()).thenReturn("1");
+		Mockito.when(dao.addItem(1L, orderId, 1)).thenReturn(o);
+		
+		Order added = controller.addToOrder();
+		
+		assertEquals(orderId, added.getId());
+		
+		
+	}
+	
+	@Test
+	public void getTotalTest() {
+		Order o = new Order(1L, 1L, LocalDate.of(2020, 1, 1));
+		
+		Mockito.when(utils.getLong()).thenReturn(1L);
+		Mockito.when(dao.getTotal(1L)).thenReturn(19.99);
+		Mockito.when(dao.read(1L)).thenReturn(o);
+		
+		assertEquals("19.99", controller.getTotal() + "");
+	}
+	
+	@Test
+	public void readItemsTest() {
+		Long orderId = 15L;
+		Long customerId = 22L;
+		Long itemId1 = 12L;
+		Long itemId2 = 13L;
+		Order o = new Order(orderId, customerId, LocalDate.of(2021, 1, 14));
+		OrderedItem oi1 = new OrderedItem(itemId1, "Wilson", "Volleyball", 19.99, 1);
+		OrderedItem oi2 = new OrderedItem(itemId2, "Spaulding", "Basketball", 14.99, 1);
+		ArrayList<OrderedItem> itemsList = new ArrayList<OrderedItem> ();
+		itemsList.add(oi1);
+		itemsList.add(oi2);
+		
+		Mockito.when(utils.getLong()).thenReturn(orderId);
+		Mockito.when(dao.readItems(orderId)).thenReturn(itemsList);
+		
+		assertEquals(itemsList, controller.readItems());
 	}
 	
 	@Test
 	public void readTest() {
-		Order o = new Order(213L, 4L, 94.24, LocalDate.of(2021, 6, 1));
+		Order o = new Order(213L, 4L, LocalDate.of(2021, 6, 1));
 		
 		Mockito.when(utils.getLong()).thenReturn(213L);
 		Mockito.when(dao.read(213L)).thenReturn(o);
@@ -78,7 +116,7 @@ public class OrderControllerTest {
 	@Test
 	public void readAllTest() {
 		ArrayList<Order> orders = new ArrayList<Order>();
-		orders.add(new Order((long) 21, 14.99, LocalDate.of(2021, 4, 25)));
+		orders.add(new Order((long) 21, LocalDate.of(2021, 4, 25)));
 
 		Mockito.when(dao.readAll()).thenReturn(orders);
 
@@ -89,10 +127,9 @@ public class OrderControllerTest {
 
 	@Test
 	public void updateTest() {
-		Order o = new Order((long) 22, (long) 44, 199.32, LocalDate.of(2020, 12, 22));
+		Order o = new Order((long) 22, 11L, LocalDate.of(2020, 12, 22));
 
-		Mockito.when(this.utils.getLong()).thenReturn((long) 22, (long) 44);
-		Mockito.when(this.utils.getDouble()).thenReturn(199.32);
+		Mockito.when(this.utils.getLong()).thenReturn((long) 22, (long) 11);
 		Mockito.when(this.utils.getString()).thenReturn("2020-12-22");
 		Mockito.when(this.dao.update(o)).thenReturn(o);
 		
@@ -101,14 +138,13 @@ public class OrderControllerTest {
 		assertEquals(updated, o);
 
 		Mockito.verify(this.utils, Mockito.times(2)).getLong();
-		Mockito.verify(this.utils, Mockito.times(1)).getDouble();
 		Mockito.verify(this.utils, Mockito.times(1)).getString();
 		Mockito.verify(this.dao, Mockito.times(1)).update(updated);
 	}
 	
 	@Test
 	public void deleteTest() {
-		Order o = new Order((long) 52, (long) 22, 22.88, LocalDate.of(2021, 2, 9));
+		Order o = new Order((long) 52, (long) 22, LocalDate.of(2021, 2, 9));
 		
 		Mockito.when(this.utils.getLong()).thenReturn((long) 52);
 		Mockito.when(this.dao.delete(52)).thenReturn(1);

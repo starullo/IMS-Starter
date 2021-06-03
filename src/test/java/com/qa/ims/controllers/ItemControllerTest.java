@@ -37,7 +37,7 @@ public class ItemControllerTest {
 	public void createTest() {
 		ItemController controller = new ItemController(dao, utils);
 		final String COMPANY = "Wilson", PRODUCT = "Basketball", PRICE = "19.99";
-		final Item created = new Item(COMPANY, PRODUCT, PRICE);
+		final Item created = new Item(COMPANY, PRODUCT, PRICE); 
 
 		Mockito.when(utils.getString()).thenReturn(COMPANY, PRODUCT, PRICE);
 		Mockito.when(dao.create(created)).thenReturn(created);

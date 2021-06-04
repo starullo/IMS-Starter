@@ -1,10 +1,5 @@
 
-USE ims;
-
-DROP TABLE IF EXISTS `customers`;
-DROP TABLE IF EXISTS `items`;
-DROP TABLE IF EXISTS `orders`;
-DROP TABLE IF EXISTS `ordered_items`;
+use ims;
 
 
 CREATE TABLE IF NOT EXISTS customers (

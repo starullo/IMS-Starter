@@ -1,6 +1,6 @@
 package com.qa.ims.controller;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,8 +30,8 @@ public class CustomerController implements CrudController<Customer> {
 	 * Reads all customers to the logger
 	 */
 	@Override
-	public List<Customer> readAll() {
-		List<Customer> customers = customerDAO.readAll();
+	public ArrayList<Customer> readAll() {
+		ArrayList<Customer> customers = customerDAO.readAll();
 		for (Customer customer : customers) {
 			LOGGER.info(customer);
 		}
@@ -43,6 +43,7 @@ public class CustomerController implements CrudController<Customer> {
 	 */
 	@Override
 	public Customer create() {
+		LOGGER.info(" ");
 		LOGGER.info("Please enter a first name");
 		String firstName = utils.getString();
 		LOGGER.info("Please enter a surname");
@@ -57,6 +58,7 @@ public class CustomerController implements CrudController<Customer> {
 	 */
 	@Override
 	public Customer update() {
+		LOGGER.info(" ");
 		LOGGER.info("Please enter the id of the customer you would like to update");
 		Long id = utils.getLong();
 		LOGGER.info("Please enter a first name");
@@ -75,6 +77,7 @@ public class CustomerController implements CrudController<Customer> {
 	 */
 	@Override
 	public int delete() {
+		LOGGER.info(" ");
 		LOGGER.info("Please enter the id of the customer you would like to delete");
 		Long id = utils.getLong();
 		return customerDAO.delete(id);

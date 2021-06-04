@@ -66,8 +66,10 @@ public class DBUtils {
 		} catch (Exception e) {
 			LOGGER.debug(e);
 		}
+		System.out.println();
 		return modified;
 	}
+
 
 	public Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(dbUrl, dbUser, dbPassword);

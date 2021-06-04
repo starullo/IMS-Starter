@@ -4,4 +4,5 @@ bin/
 .*
 !.gitignore
 *.log
-.src/test/resources
+.src/test/resources/db.properties
+.src/main/resources/db.properties

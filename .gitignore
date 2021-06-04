@@ -1,7 +1,7 @@
 .settings/
 target/
 bin/
-/src/test/resources/
+*db.properties
 /src/main/resources/
 .*
 !.gitignore

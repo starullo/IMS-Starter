@@ -2,10 +2,8 @@ package com.qa.ims.controller;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,6 +27,7 @@ public class OrderController implements CrudController<Order> {
 	}
 	
 	public Order addToOrder() {
+		LOGGER.info(" ");
 		LOGGER.info("Please enter the id of the order you'd like to add to");
 		Long orderId = utils.getLong();
 		LOGGER.info("Please enter the id of the item you'd like to add to the order");
@@ -42,6 +41,7 @@ public class OrderController implements CrudController<Order> {
 	}
 	
 	public ArrayList<OrderedItem> readItems() {
+		LOGGER.info(" ");
 		LOGGER.info("Please enter the order id of the items you'd like to view");
 		Long orderId = utils.getLong();
 		ArrayList<OrderedItem> orderedItems = orderDAO.readItems(orderId);
@@ -52,6 +52,7 @@ public class OrderController implements CrudController<Order> {
 	}
 	
 	public String getTotal() {
+		LOGGER.info(" ");
 		LOGGER.info("Please enter the order id to view the total");
 		Long orderId = utils.getLong();
 		BigDecimal t = orderDAO.getTotal(orderId);
@@ -62,6 +63,7 @@ public class OrderController implements CrudController<Order> {
 	}
 	
 	public int deleteItem() {
+		LOGGER.info(" ");
 		LOGGER.info("Please enter the id of the order you'd like to modify");
 		Long orderId = utils.getLong();
 		ArrayList<OrderedItem> orderedItems = orderDAO.readItems(orderId);
@@ -76,6 +78,7 @@ public class OrderController implements CrudController<Order> {
 	
 	@Override
 	public Order create() {
+		LOGGER.info(" ");
 		LOGGER.info("Please enter the id of the customer making the order");
 		Long customerId = utils.getLong();
 		Order order = orderDAO.create(new Order(customerId));
@@ -85,6 +88,7 @@ public class OrderController implements CrudController<Order> {
 	}
 	
 	public Order read() {
+		LOGGER.info(" ");
 		LOGGER.info("Please enter the id of the order you'd like to view");
 		Long id = utils.getLong();
 		Order order = orderDAO.read(id);
@@ -94,6 +98,8 @@ public class OrderController implements CrudController<Order> {
 	
 	@Override
 	public ArrayList<Order> readAll() {
+		LOGGER.info(" ");
+		LOGGER.info(" ");
 		ArrayList<Order> orders = orderDAO.readAll();
 		for (Order order : orders) {
 			LOGGER.info(order);
@@ -104,6 +110,7 @@ public class OrderController implements CrudController<Order> {
 	
 	@Override
 	public Order update() {
+		LOGGER.info(" ");
 		LOGGER.info("Please enter the id of the order you'd like to update");
 		Long id = utils.getLong();
 		LOGGER.info("Please enter the id of the customer making the order");
@@ -111,7 +118,6 @@ public class OrderController implements CrudController<Order> {
 		LOGGER.info("Please enter the date the order was placed (ex. \"YYYY-MM-DD\")");
 		String date = utils.getString();
 		String[] dateArr = date.split("-", 0);
-//		PUT EXCEPTION HANDLERS HERE!!!!!!!!!
 		int year = Integer.parseInt(dateArr[0]);
 		int month = Integer.parseInt(dateArr[1]);
 		int day = Integer.parseInt(dateArr[2]);
@@ -123,6 +129,7 @@ public class OrderController implements CrudController<Order> {
 	
 	@Override
 	public int delete() {
+		LOGGER.info(" ");
 		LOGGER.info("Please enter the id of the order you would like to delete");
 		Long id = utils.getLong();
 		return orderDAO.delete(id);

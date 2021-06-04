@@ -41,9 +41,11 @@ public class IMS {
 
 		Domain domain = null;
 		do {
+			LOGGER.info(" ");
 			LOGGER.info("Which entity would you like to use?");
+			LOGGER.info(" ");
 			Domain.printDomains();
-
+			LOGGER.info(" ");
 			domain = Domain.getDomain(utils);
 
 			domainAction(domain);
@@ -71,7 +73,8 @@ public class IMS {
 			default:
 				break;
 			}
-
+			
+			LOGGER.info(" ");
 			LOGGER.info(() ->"What would you like to do with " + domain.name().toLowerCase() + ":");
 
 			if (active == this.orders) {

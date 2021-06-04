@@ -4,4 +4,4 @@ bin/
 .*
 !.gitignore
 *.log
-
+.src/test/resources

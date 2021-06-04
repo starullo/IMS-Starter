@@ -1,7 +1,6 @@
 package com.qa.ims.persistence.dao;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +19,7 @@ import com.qa.ims.utils.DBUtils;
 public class OrderDAO implements Dao<Order> {
 	
 	public static final Logger LOGGER = LogManager.getLogger();
-	
+	 
 	
 	@Override
 	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
@@ -98,13 +97,11 @@ public class OrderDAO implements Dao<Order> {
 			ResultSet resultSet = statement.executeQuery();
 			ArrayList<OrderedItem> items = new ArrayList<OrderedItem>();
 			BigDecimal total = new BigDecimal(0.0);
-			BigDecimal displayVal = total.setScale(2, RoundingMode.HALF_EVEN);
 			while (resultSet.next()) {
 				items.add(modelOIFromResultSet(resultSet));
 			}
 			for (OrderedItem oi : items) {
-				BigDecimal bd = new BigDecimal(oi.getPrice());
-				BigDecimal displayVal2 = bd.setScale(2, RoundingMode.HALF_EVEN);
+				BigDecimal bd = new BigDecimal(oi.getPrice() * oi.getQuantity());
 				total = total.add(bd);
 			}
 			return total;

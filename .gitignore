@@ -1,8 +1,9 @@
 .settings/
 target/
 bin/
+src/test/resources/
+src/main/resources/
 .*
 !.gitignore
 *.log
-src/test/resources/
-src/main/resources/
+

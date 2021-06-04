@@ -15,7 +15,7 @@ public class OrderedItem {
 		this.price = price;
 		this.quantity = quantity;
 	}
-	
+	 
 	public OrderedItem(String company, String product, double price, int quantity) {
 		this.company = company;
 		this.product = product;

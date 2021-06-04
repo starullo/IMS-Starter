@@ -4,15 +4,12 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.qa.ims.persistence.domain.Customer;
-import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.utils.DBUtils;
 
 public class CustomerDAOTest {
@@ -39,6 +36,8 @@ public class CustomerDAOTest {
 		Customer added3 = DAO.create(c3);
 		Customer n = null;
 		Customer added4 = DAO.create(n);
+		assertNotEquals(added2, added3);
+		assertNotEquals(added4, 15);
 	}
 
 	@Test
@@ -82,6 +81,8 @@ public class CustomerDAOTest {
 		Customer n = null;
 		Customer returned = DAO.update(n);
 		Customer c2 = new Customer((long) -1111111, "John", "Smith");
+		assertNotEquals(returned, 123);
+		assertNotEquals(c2, 5555);
 
 	}
 
@@ -93,5 +94,6 @@ public class CustomerDAOTest {
 		assertEquals(1, result);
 		assertNotEquals(0, result);
 		int res = DAO.delete(-92834098324L);
+		assertNotEquals(1, res);
 	}
 }

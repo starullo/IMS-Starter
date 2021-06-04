@@ -11,7 +11,7 @@ import com.qa.ims.utils.Utils;
  *
  */
 public enum OrderAction {
-	CREATE("To add a new order into the database"), READ("To read an order from the database"), UPDATE("To change an order in the database"), DELETE("To remove an order from the database"), ADD("To add an item to an order in the database"), TOTAL("To get the total cost for an order in the database"), ITEMS("To read all items in an order in the database"), REMOVE("To remove an item from an order in the database"), RETURN("To return to domain selection");
+	CREATE("To add a new order into the database"), READ("To read orders in the database"), UPDATE("To change an order in the database"), DELETE("To remove an order from the database"), ADD("To add an item to an order in the database"), TOTAL("To get the total cost for an order in the database"), ITEMS("To read all items in an order in the database"), REMOVE("To remove an item from an order in the database"), RETURN("To return to domain selection");
 
 	public static final Logger LOGGER = LogManager.getLogger();
 

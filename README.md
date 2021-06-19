@@ -1,7 +1,7 @@
 Coverage: 80.2%
 # Inventory Management System
 
-An application that allows the user to interact with a database using a Command-Line Interface. Users can perform various operations on customers, items, and order entities in the database.
+An application that allows users to interact with a database using a Command-Line Interface. Users can perform various operations on customers, items, and order entities in the database.
 
 ## Getting Started
 

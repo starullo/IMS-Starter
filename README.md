@@ -5,7 +5,7 @@ An application that allows users to interact with a database using a Command-Lin
 
 ## Getting Started
 
-The project is packaged with it's dependencies in a jar file (ims-0.0.1-jar-with-dependencies.jar) located in the IMS-Starter/documents directory. Open up a terminal and (from the root directory of the project) can enter the command
+The project is packaged with it's dependencies in a jar file (ims-0.0.1-jar-with-dependencies.jar) located in the IMS-Starter/documents directory. Open up a terminal and (from the root directory of the project) enter the command
 ```
 java -jar documents/ims-0.0.1-jar-with-dependencies.jar
 ```
